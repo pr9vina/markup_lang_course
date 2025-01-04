@@ -1,0 +1,103 @@
+---
+title: "Presentation #2"
+author: "Polina Revina"
+editor: visual
+format:
+  revealjs:
+    logo: UU_logo.png
+    footer: "Polina Revina"
+    slide-number: true
+    mathjax: true
+bibliography: references.bib
+---
+
+```{r, include=FALSE}
+renv::init()
+renv::activate()
+renv::install("rmarkdown")
+renv::install("yaml")
+renv::install("DT")
+renv::restore()
+```
+
+## A centered still figure
+
+!["A Bar at the Folies-Bergère" by Édouard Manet](fb-em-05.jpg){fig-align="center" width="300"}
+
+## An interactive table
+
+```{r}
+library(DT)
+datatable(mtcars, 
+ filter = "top",
+ options = list(pageLength = 2, 
+ autoWidth = TRUE, 
+ searching = TRUE, 
+ scrollX = TRUE))
+```
+
+## A moving figure
+
+![Moving figure](1566635502_orig.gif){width="500"}
+
+## A 2-column slide
+
+::: columns
+::: {.column width="50%"}
+This is a painting by Monet:
+
+!["The Poppy Field near Argenteuil" by Claude Monet](monet.jpg)
+:::
+
+::: {.column width="50%"}
+And this is a painting by Manet:
+
+!["A Bar at the Folies-Bergère" by Édouard Manet](fb-em-05.jpg){fig-align="center" width="200"}
+:::
+:::
+
+## An aligned multi-row equation
+
+$$
+\begin{align}
+x &= \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \\
+  &= \frac{-b + \sqrt{b^2 - 4ac}}{2a} \quad \text{(Positive root)} \\
+  &= \frac{-b - \sqrt{b^2 - 4ac}}{2a} \quad \text{(Negative root)}.
+\end{align}
+$$
+
+## A citation and a reference list
+
+Here is the last paper that I've read:[@forastiere2021identification].
+
+## Displayed R-code
+
+```{r, echo=T, results='hide'}
+set.seed(123)  
+x <- rnorm(100, mean = 50, sd = 10)  
+y <- 2 * x + rnorm(100, mean = 0, sd = 5)  
+plot(x, y)
+```
+
+## Cached and labeled R-code (executed but not displayed)
+
+```{r plot, echo=FALSE, cache=TRUE}
+x <- rnorm(100, mean = 50, sd = 10)  
+y <- 2 * x + rnorm(100, mean = 0, sd = 5) 
+plot(
+  x, y,
+  main = "Scatter Plot of Randomly Generated Data",
+  xlab = "X Values",
+  ylab = "Y Values",
+  pch = 19, 
+  col = "blue"
+)
+```
+
+## Renv
+
+```{r}
+renv::snapshot()
+```
+
+## References

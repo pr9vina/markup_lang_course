@@ -1,0 +1,18 @@
+---
+title: "Exercise 1.1"
+author: "Polina Revina, \\ ORCID: 0000-0001-8149-3748"
+format: 
+    revealjs:
+      logo: uu_logo.png
+editor: visual
+---
+
+## My favourite equation
+
+$$
+ATE = E[Y^1|X_i = 1] - E[Y^0|X_i = 0]
+$$
+
+## My source of information
+
+Github repository: https://github.com/pr9vina
