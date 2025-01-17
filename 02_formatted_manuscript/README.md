@@ -1,5 +1,7 @@
 # Markup languages and reproducible programming in statistics
 
-Deliverable 2: Formatted markup manuscript.
-
-Place the PDF version of your manuscript in this directory. See course manual for requirements.
+This folder contains manuscript of my research report. In the `Thesis Report` you can find: 
+  - `Thesis_Report.pdf`: rendered manuscript 
+  - `main.tex`: source 
+  - `lit.bib`: bibliography 
+  - `fig_thesis.png`: picture 
