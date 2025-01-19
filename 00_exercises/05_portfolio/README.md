@@ -1,5 +1,4 @@
-# Markup languages and reproducible programming in statistics
+## Portfolio 
 
-Deliverables for Markup languages and reproducible programming in statistics (202000010).
-
-
+- Link to the repository: https://github.com/pr9vina/portfolio_demo 
+- Link to the website: https://pr9vina.github.io/portfolio_demo/ 
