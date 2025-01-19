@@ -17,7 +17,7 @@ simulate_experiment <- function(funnels, N) {
 }
 
 # Perform interim analysis and store pvalue
-experment_episode <- function(funnels, N, prior_observations = NULL) {
+experiment_episode <- function(funnels, N, prior_observations = NULL) {
   observations <- simulate_experiment(funnels, N)
   if (!is.null(prior_observations)) {
     observations <- observations + prior_observations
@@ -105,7 +105,7 @@ ui <- fluidPage(
              sidebarLayout(
                sidebarPanel(
                  numericInput("num_simulations", "Number of simulations:", 3, min = 1, max = 10),
-                 numericInput("num_experiments", "Number of experiments:", 5, min = 1, max = 20),
+                 numericInput("num_experiments", "Number of experiments:", 1, min = 1, max = 20),
                  actionButton("run_simulation", "Run Simulation")
                ),
                mainPanel(
@@ -120,6 +120,7 @@ ui <- fluidPage(
 # Server logic
 server <- function(input, output) {
   
+  # Observe the run_simulation button click
   observeEvent(input$run_simulation, {
     # Example funnels: Conversion rates and traffic split
     funnels <- list(
@@ -127,15 +128,19 @@ server <- function(input, output) {
       list(c(0.07, 0.93), 0.5)   # Treatment group: 7% conversion rate, 50% of traffic
     )
     
-    # Number of simulations determines the episodes size
-    episodes <- seq(input$num_simulations * 1000, input$num_simulations * 10000, by = 1000)
+    # Calculate the number of samples (episodes) based on number of simulations
+    episodes <- seq(input$num_simulations * 100, input$num_simulations * 1000, by = 100)
     alphas <- rep(0.05, length(episodes))  # Significance level for A/B testing
     
     # Run the early stopping simulation
     fpr <- early_stopping_simulation(funnels, input$num_simulations, episodes, alphas)
+    print("fpr")
+    print(fpr)
     
     # Calculate FPR for each experiment
     fpr_df <- calculate_fpr(funnels, episodes, input$num_experiments)
+    print("fpr_df")
+    print(fpr_df)
     
     # Display the FPR table
     output$fpr_table <- renderTable({
@@ -165,12 +170,15 @@ server <- function(input, output) {
     # Generate the results data frame
     results_df <- results_df_multiple_experiments(funnels, episodes, input$num_experiments)
     
+    # Check if data is generated correctly
+    print(head(results_df))  # Print the first few rows for debugging
+    
     # Plot the results for all experiments
     output$p_value_plot <- renderPlot({
       ggplot(results_df, aes(x = SampleSize, y = PValue, group = ExperimentID, color = factor(ExperimentID))) +
         geom_line() +
         geom_hline(yintercept = 0.05, linetype = "dashed", color = "red") +
-        labs(title = "P-value Trajectories in A/B Testing with Early Stopping",
+        labs(title = "P-value Trajectories with Early Stopping",
              x = "Sample Size", y = "P-value", color = "Experiment ID") +
         theme(legend.position = "right")
     })
